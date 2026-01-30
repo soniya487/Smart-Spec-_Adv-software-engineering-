@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartSpec Requirement Analyzer</title>
+</head>
+<body>
+
+<h1>SmartSpec Requirement Analyzer</h1>
+
+<p>Enter requirements (one per line, format: REQ-ID: text)</p>
+
+<textarea id="input" rows="6" cols="80">
+REQ-1: The system should be fast and user-friendly
+REQ-2: The system shall respond within 2 seconds
+</textarea>
+
+<br><br>
+<button onclick="analyze()">Analyze</button>
+
+<h2>Analysis Output</h2>
+<pre id="output"></pre>
+
+<script>
+async function analyze() {
+    const rawText = document.getElementById("input").value.trim();
+    const lines = rawText.split("\n");
+
+    // ✅ Convert text → structured objects
+    const requirements = lines.map(line => {
+        const parts = line.split(":");
+        return {
+            id: parts[0].trim(),
+            text: parts.slice(1).join(":").trim()
+        };
+    });
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/analyze/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ requirements })
+        });
+
+        const data = await response.json();
+        document.getElementById("output").textContent =
+            JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        document.getElementById("output").textContent =
+            "Error connecting to backend:\n" + error;
+    }
+}
+</script>
+
+</body>
+</html>

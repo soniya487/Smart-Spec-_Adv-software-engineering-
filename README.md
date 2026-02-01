@@ -138,15 +138,6 @@ Swagger UI: http://127.0.0.1:8000/docs
 Frontend UI: Open app/frontend/index.html in a browser **make sure you generate all the links after you load the application **
 
 
-****Project Scope and Limitations**
-
-
- * Designed for academic and demonstration purposes
-
- * Rule-based evaluation (not generative AI)
-
- * Can be extended with ML models in future phases
-
 **Future Enhancements**
 
 
